@@ -1,0 +1,1 @@
+- Informar de que se ha creado un usuario tapleon con contraseña tapleon para la base de datos
