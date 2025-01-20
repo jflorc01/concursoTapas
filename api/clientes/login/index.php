@@ -30,10 +30,6 @@
                         "email" => $datos['email'],
                     ];                 
                     
-                    echo "<pre>";
-                    print_r($payload);
-                    echo "</pre>";
-
                     $jwt = JWT::encode($payload, $secret, $alg);
                     echo json_encode(["token" => $jwt]);
 
