@@ -9,7 +9,7 @@
  * @category API
  * @package  ConcursoTapas
  * @author   Isaac Alonso y Juan Álvaro
- * @link     http://ejemplo.com
+ * @link     http://localhost/bares
  */
 
 require_once "../clases/Conexion.php";
