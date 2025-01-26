@@ -39,7 +39,11 @@ function obtenerPerfilCliente() {
                 echo json_encode($payload);
             } catch (mysqli_sql_exception $e) {
                 header("HTTP/1.1 401 Unauthorized");
+                exit;
             }
+        }else{
+            header("HTTP/1.1 401 Unauthorized");
+            exit;
         }
     }
 }
