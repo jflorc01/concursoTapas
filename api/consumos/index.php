@@ -13,16 +13,53 @@
     if($_SERVER['REQUEST_METHOD'] === "POST"){
         $headers = getallheaders();
 
-        if(isset($headers['Authorization'])){
-            $jwt = trim(trim($headers['Authorization'], "Bearer"));
-            echo "<p>---$jwt---</p>";
+        if(isset($_POST['id_tapa']) && isset($_POST['fecha']) && isset($_POST['hora']) && isset($_POST['valoracion'])){
 
-            try{
+            $id_tapa = $_POST['id_tapa'];
+            $fecha = $_POST['fecha'];
+            $hora = $_POST['hora'];
+            $valoracion = $_POST['valoracion'];
 
+            if(isset($headers['Authorization'])){
+                $jwt = trim(trim($headers['Authorization'], "Bearer"));
+                echo "<p>---$jwt---</p>";
 
-            }catch(mysqli_sql_exception $e){
+                try{
+                    $payload = JWT::decode($jwt, new Key($secret, $alg));
+                    echo "<pre>";
+                    var_dump($payload);
+                    echo "</pre>";
+
+                    $id_cliente = $payload->id;
+
+                    $sql = "INSERT INTO consumos (cliente, tapa, fecha, hora, valoracion) 
+                        VALUES ('$id_cliente', '$id_tapa', '$fecha', '$hora', '$valoracion')";
+                    
+                    try{
+                        $con->query($sql);
+                        if($con->affected_rows > 0){
+                            header("HTTP/1.1 201 Created");
+                            echo json_encode($con->insert_id);
+                        }else{
+                            header("HTTP/1.1 500 Internal Server Error");
+                            exit;
+                        }
+                    }catch(mysqli_sql_exception $e){
+                        header("HTTP/1.1 400 Bad Request");
+                        exit;
+                    }  
+
+                }catch(Exception $e){
+                    header("HTTP/1.1 401 Unauthorized");
+                    exit;
+                }
+            }else{
                 header("HTTP/1.1 401 Unauthorized");
+                exit;
             }
+        }else{
+            header("HTTP/1.1 400 Bad Request");
+            exit;
         }
     }
 
