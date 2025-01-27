@@ -8,6 +8,7 @@
     $secret = "miclavesecreta";
     $alg = "HS256";
 
+    // Inicio de sesión
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(!isset($_POST['user']) || !isset($_POST['pass'])){
             header("HTTP/1.1 400 Bad Request");
@@ -21,6 +22,7 @@
             if($result && $result->num_rows > 0){
                 $datos = $result->fetch_assoc();
                 $passHash = $datos['contrasena'];
+
                 if($passHash === hash('sha512', $_POST['pass'])){
                     
                     $payload = [

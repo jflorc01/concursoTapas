@@ -9,12 +9,12 @@
     $secret = "miclavesecreta";
     $alg = "HS256";
 
+    // Obtener datos del perfil de usuario
     if($_SERVER['REQUEST_METHOD'] === 'GET'){
         $headers = getallheaders();
 
         if(isset($headers['Authorization'])){
             $jwt = trim(trim($headers['Authorization'], "Bearer"));
-            echo "<p>---$jwt---</p>";
 
             try{
                 $payload = JWT::decode($jwt, new Key($secret, $alg));
@@ -23,6 +23,10 @@
 
             }catch(mysqli_sql_exception $e){
                 header("HTTP/1.1 401 Unauthorized");
+                exit;
             }
+        }else{
+            header("HTTP/1.1 401 Unauthorized");
+            exit;
         }
     }

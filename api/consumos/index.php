@@ -65,5 +65,36 @@
 
     // Obtener consumiciones de usuario
     if($_SERVER['REQUEST_METHOD'] === "GET"){
-        
+        $headers = getallheaders();
+
+        if(isset($headers['Authorization'])){
+            $jwt = trim(trim($headers['Authorization'], "Bearer"));
+
+            try{
+                $payload = JWT::decode($jwt, new Key($secret, $alg));
+                $id_cliente = $payload->id;
+
+                $sql = "SELECT * FROM consumos WHERE cliente = '$id_cliente'";
+                try{
+                    $result = $con->query($sql);
+
+                    if($result && $result->num_rows > 0){
+                        $consumos = $result->fetch_all(MYSQLI_ASSOC);
+                        header("HTTP/1.1 200 OK");
+                        echo json_encode($consumos);
+                    }else{
+                        header("HTTP/1.1 404 Not Found");
+                    }
+                }catch(mysqli_sql_exception $e){
+                    header("HTTP/1.1 500 Internal Server Error");
+                }
+            }catch(Exception $e){
+                header("HTTP/1.1 401 Unauthorized");
+                exit;
+            }
+
+        }else{
+            header("HTTP/1.1 401 Unauthorized");
+            exit;
+        }
     }

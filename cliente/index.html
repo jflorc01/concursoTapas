@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente Concurso de Tapas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Cliente API Concurso de Tapas</h1>
+
+    <div>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="user">Usuario:</label>
+            <input type="text" id="user" name="user" required>
+            <label for="pass">Contraseña:</label>
+            <input type="password" id="pass" name="pass" required>
+            <button type="submit">Login</button>
+        </form>
+        <pre id="loginOutput"></pre>
+    </div>
+
+    <div>
+        <h2>Registro</h2>
+        <form id="registroForm">
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" name="usuario" required>
+            <label for="pass">Contraseña:</label>
+            <input type="password" id="pass2" name="pass" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="submit">Registrar</button>
+        </form>
+        <pre id="registroOutput"></pre>
+    </div>
+
+    <div>
+        <h2>Perfil</h2>
+        <button id="perfil">Ver Perfil</button>
+        <pre id="perfilOutput"></pre>
+    </div>
+
+    <div>
+        <h2>Listar Bares</h2>
+        <button id="listarBares">Listar Bares</button>
+        <pre id="baresOutput"></pre>
+    </div>
+
+    <div>
+        <h2>Insertar Bar</h2>
+        <form id="insertarBarForm">
+            <label for="nombreBar">Nombre:</label>
+            <input type="text" id="nombreBar" name="nombre" required>
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" required>
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" required>
+            <label for="hora_apertura">Hora Apertura:</label>
+            <input type="time" id="hora_apertura" name="hora_apertura" required>
+            <label for="hora_cierre">Hora Cierre:</label>
+            <input type="time" id="hora_cierre" name="hora_cierre" required>
+            <button type="submit">Insertar Bar</button>
+        </form>
+        <pre id="insertarBarOutput"></pre>
+    </div>
+
+    <div>
+        <h2>Listar Tapas</h2>
+        <button id="listarTapas">Listar Tapas</button>
+        <pre id="tapasOutput"></pre>
+    </div>
+
+    <div>
+        <h2>Insertar Tapa</h2>
+        <form id="insertarTapaForm">
+            <label for="nombreTapa">Nombre:</label>
+            <input type="text" id="nombreTapa" name="nombre" required>
+            <label for="ingredientes">Ingredientes:</label>
+            <input type="text" id="ingredientes" name="ingredientes" required>
+            <label for="barTapa">Bar:</label>
+            <input type="text" id="barTapa" name="bar" required>
+            <button type="submit">Insertar Tapa</button>
+        </form>
+        <pre id="insertarTapaOutput"></pre>
+    </div>
+
+    <div>
+        <h2>Registrar Consumo</h2>
+        <form id="registrarConsumoForm">
+            <label for="id_tapa">ID Tapa:</label>
+            <input type="text" id="id_tapa" name="id_tapa" required>
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" required>
+            <label for="hora">Hora:</label>
+            <input type="time" id="hora" name="hora" required>
+            <label for="valoracion">Valoración:</label>
+            <input type="number" id="valoracion" name="valoracion" min="1" max="5" required>
+            <button type="submit">Registrar Consumo</button>
+        </form>
+        <pre id="registrarConsumoOutput"></pre>
+    </div>
+
+    <div>
+        <h2>Obtener Consumos</h2>
+        <button id="obtenerConsumos">Obtener Consumos</button>
+        <pre id="consumosOutput"></pre>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

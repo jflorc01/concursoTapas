@@ -3,6 +3,7 @@
     require_once "../../clases/Conexion.php";
     $con = new Conexion();
 
+    // Registro de usuario
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         if(isset($_POST['usuario']) && isset($_POST['pass']) && isset($_POST['email'])){
             $usuario = $_POST['usuario'];

@@ -1,8 +1,15 @@
 <?php
 
     require_once "../clases/Conexion.php";
-    $con = new Conexion();
+    require_once "../../vendor/autoload.php";
+    use Firebase\JWT\JWT;
+    use Firebase\JWT\Key;
 
+    $con = new Conexion();
+    $secret = "miclavesecreta";
+    $alg = "HS256";
+
+    // Listar tapas
     if($_SERVER['REQUEST_METHOD'] === 'GET'){
         try{
             $sql = "SELECT * FROM tapas WHERE 1 ";
@@ -37,6 +44,55 @@
             }
         }catch(mysqli_sql_exception $e){
             header("HTTP/1.1 500 Internal Server Error");
+            exit;
+        }
+    }
+
+    // Insertar una nueva tapa (Solo para admins)
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        $headers = getallheaders();
+
+        if(isset($headers['Authorization'])){
+            $jwt = trim(trim($headers['Authorization'], "Bearer"));
+
+            if(isset($_POST['nombre']) && isset($_POST['ingredientes']) && isset($_POST['bar'])){
+                try{
+                    $payload = JWT::decode($jwt, new Key($secret, $alg));
+
+                    if($payload->rol === 'admin'){
+                        $nombre = $_POST['nombre'];
+                        $ingredientes = $_POST['ingredientes'];
+                        $bar = $_POST['bar'];
+
+                        $sql = "INSERT INTO tapas (nombre, ingredientes, bar) VALUES ('$nombre', '$ingredientes', '$bar')";
+                        try{
+                            $result = $con->query($sql);
+
+                            if($result){
+                                header("HTTP/1.1 201 Created");
+                                echo json_encode($con->insert_id);
+                            }else{
+                                header("HTTP/1.1 500 Internal Server Error");
+                                exit;
+                            }
+                        }catch(mysqli_sql_exception $e){
+                            header("HTTP/1.1 400 Bad Request");
+                            exit;
+                        }  
+                    }else{
+                        header("HTTP/1.1 401 Unauthorized");
+                        exit;
+                    }
+                }catch(Exception $e){
+                    header("HTTP/1.1 401 Unauthorized");
+                    exit;
+                }
+            }else{
+                header("HTTP/1.1 400 Bad Request");
+                exit;
+            }
+        }else{
+            header("HTTP/1.1 401 Unauthorized");
             exit;
         }
     }
