@@ -36,6 +36,14 @@
                 exit;
             }
 
+            // Paginación
+            $limit = 6;
+            if (isset($_GET['pag'])) {
+                $page = (int)$_GET['pag'];
+                $offset = ($page - 1) * $limit;
+                $sql .= " LIMIT $limit OFFSET $offset";
+            }
+
             $result = $con->query($sql);
             if($result && $result->num_rows > 0){
                 $tapas = $result->fetch_all(MYSQLI_ASSOC);
